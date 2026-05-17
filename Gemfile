@@ -66,3 +66,13 @@ group :test do
 end
 
 gem "tailwindcss-rails", "~> 4.4"
+
+# para jwt y oauth2
+gem "omniauth"
+gem "omniauth_openid_connect"
+
+gem "oauth2"
+gem "jwt"
+
+
+gem "dotenv-rails", groups: [ :development, :test ]

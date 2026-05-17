@@ -2,6 +2,8 @@ require_relative "boot"
 
 require "rails/all"
 
+
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
@@ -23,5 +25,13 @@ module Store
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+
+    config.autoload_paths << Rails.root.join("app/middleware")
+    config.eager_load_paths << Rails.root.join("app/middleware")
+
+    require Rails.root.join("app/middleware/keycloak/middleware")
+    config.middleware.use OmniAuth::Builder
+    config.middleware.use Keycloak::Middleware
   end
 end

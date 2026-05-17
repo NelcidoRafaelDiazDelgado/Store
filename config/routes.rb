@@ -11,4 +11,13 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  # OmniAuth
+  get "/auth/:provider/callback", to: "sessions#create"
+  post "/logout", to: "sessions#destroy"
+
+  # Rutas Protegidas
+  get "/secured", to: "secured#index"
+  get "/health", to: "admin#index"
+
+  root "home#index"
 end
