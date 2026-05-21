@@ -66,11 +66,10 @@ group :test do
 end
 
 gem "tailwindcss-rails", "~> 4.4"
-# Opentelemtry dependecies
+# Opentelemtry dependencies
 gem "opentelemetry-sdk", "~> 1.12"
 gem "opentelemetry-instrumentation-all", "~> 0.93.0"
 gem "opentelemetry-exporter-otlp"
 gem "opentelemetry-logs-sdk"
 gem "opentelemetry-exporter-otlp-logs"
 gem "opentelemetry-instrumentation-logger", "~> 0.4.0"
-gem "kamal"
