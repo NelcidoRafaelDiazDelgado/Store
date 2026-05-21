@@ -1,12 +1,12 @@
 services:
     loki:
-        image: grafana/loki:latest
+        image: grafana/loki:2.9.8
         ports:
             - "3100:3100"
         command: -config.file=/etc/loki/local-config.yaml
 
     prometheus:
-        image: prom/prometheus:latest
+        image: prom/prometheus:v2.53.4
         ports:
             - "9090:9090"
         volumes:
@@ -16,7 +16,7 @@ services:
             - --web.enable-remote-write-receiver
 
     tempo:
-        image: grafana/tempo:latest
+        image: grafana/tempo:2.6.1
         ports:
             - "3200:3200"
         volumes:
@@ -25,7 +25,7 @@ services:
             - -config.file=/etc/tempo/tempo.yml
 
     alloy:
-        image: grafana/alloy:latest
+        image: grafana/alloy:v1.7.1
         ports:
             - "12345:12345"
             - "4317:4317"
@@ -45,7 +45,7 @@ services:
             - tempo
 
     grafana:
-        image: grafana/grafana:latest
+        image: grafana/grafana:11.2.2
         ports:
             - "3001:3000"
         environment:
