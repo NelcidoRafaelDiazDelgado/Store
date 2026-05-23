@@ -20,6 +20,7 @@ services:
     depends_on:
     - selenium
     - postgres
+    - keycloak
 
   selenium:
     image: selenium/standalone-chromium
@@ -38,10 +39,14 @@ services:
 
   keycloak:
     image: quay.io/keycloak/keycloak:25.0
-    command: start-dev
+    command: 
+    - start-dev
+    - --hostname=localhost
+    - --hostname-strict=false
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_HTTP_ENABLED: "true"
     ports:
       - "8080:8080"
 

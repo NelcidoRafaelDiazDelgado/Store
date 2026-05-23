@@ -70,6 +70,8 @@ gem "tailwindcss-rails", "~> 4.4"
 # para jwt y oauth2
 gem "omniauth"
 gem "omniauth_openid_connect"
+gem "omniauth-rails_csrf_protection"
+gem "omniauth-keycloak"
 
 gem "oauth2"
 gem "jwt"

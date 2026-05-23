@@ -21,8 +21,15 @@ module Keycloak
 
     def call(env)
       request = Rack::Request.new(env)
-      # session = request.session
       path = request.path_info
+
+      # Handle OAuth2 callback
+      if path == "/auth/openid_connect/callback"
+        code = request.params["code"]
+        if code
+          return handle_callback(request)
+        end
+      end
 
       if path.start_with?("/auth/") || path == "/" || path == "/login"
         return @app.call(env)
@@ -73,36 +80,32 @@ module Keycloak
 
     def handle_callback(request)
       code = request.params["code"]
-      puts "----------------------------------------------" if code
-      puts "Received authorization code: #{code}" if code
-      session = request.session
       return unauthorized("Missing authorization code") unless code
 
       token_response = exchange_code_for_token(code)
-      puts "----------------------------------------------" if code
-      puts "Token response: #{token_response.inspect}" if token_response
-      puts "----------------------------------------------" if code
+      return unauthorized("Token exchange failed") unless token_response && token_response["access_token"]
 
-      if token_response && token_response["access_token"]
-        session[:access_token] = token_response["access_token"]
+      # Store access token
+      # request.session[:access_token] = token_response["access_token"]
 
-        payload = decode_token(token_response["access_token"])
-        roles = payload.dig("realm_access", "roles") || []
+      # Store id_token for logout
+      request.session[:id_token] = token_response["id_token"]
 
-        # Decide redirection path based on role
-        redirect_path =
-          if roles.include?("admin")
-            "/admin"
-          elsif roles.include?("user")
-            "/secured"
-          else
-            "/"
-          end
+      # Decode token to get user info
+      payload = decode_token(token_response["access_token"])
 
-        [ 302, { "Location" => redirect_path }, [] ]
-      else
-        unauthorized("Token exchange failed")
+      if payload
+        # Store user info in session
+        request.session[:user_info] = {
+          uid: payload["sub"],
+          provider: "keycloak",
+          name: payload["name"],
+          email: payload["email"]
+        }
       end
+
+      # Redirect to home page
+      [ 302, { "Location" => "/" }, [] ]
     end
 
 

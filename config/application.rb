@@ -31,7 +31,6 @@ module Store
     config.eager_load_paths << Rails.root.join("app/middleware")
 
     require Rails.root.join("app/middleware/keycloak/middleware")
-    config.middleware.use OmniAuth::Builder
     config.middleware.use Keycloak::Middleware
   end
 end
