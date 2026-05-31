@@ -492,3 +492,162 @@ Sistema de Autenticacion
     Serás redirigido a Keycloak para cerrar sesión
     Luego regresarás a http://localhost:3000
     Verás "You are not signed in." nuevamente
+# README
+
+This README would normally document whatever steps are necessary to get the
+application up and running.
+
+Things you may want to cover:
+
+* Ruby version
+
+* System dependencies
+
+* Configuration
+
+* Database creation
+
+* Database initialization
+
+* How to run the test suite
+
+* Services (job queues, cache servers, search engines, etc.)
+
+* Deployment instructions
+
+* ...
+
+
+
+
+Como correr el proyecto: 
+
+1. Instalar extension de devcontainers en vscode
+
+
+
+
+Sistema de Autenticacion
+
+
+
+1. El sistema va a estar corriendo en dos puertos distintos: 3000 (hogar) y 8080 (keycloak)
+
+2. Abre el navegador a http://localhost:8080 y alli va a ver una pagina de login para el realm "master". 
+- El combo de usuario/contrasena que hay que usar es: admin/admin
+
+2. Crear un Nuevo Realm 
+
+    Haz clic en el dropdown de realms (arriba a la izquierda donde dice "master")
+    Haz clic en "Create Realm"
+    Nombre: rails-dev
+    Haz clic en "Create"
+    Ahora estarás en el realm rails-dev
+
+3. Crear un Nuevo Cliente: "rails-app"
+
+    En el menú izquierdo, ve a "Clients"
+
+    Haz clic en "Create client"
+    - Client ID: rails-app
+    
+    Haz clic en "Next"
+
+    Activa:
+    - Client authentication (encendido)
+    - Authorization (encendido)
+
+    Haz clic en "Next" y luego "Save"
+
+4. Configurar el Cliente: Capítulo "Settings"
+    En la página del cliente rails-app, ve a la pestaña "Settings"
+    Configuración necesaria:
+
+    - Root URL: http://localhost:3000
+    - Valid Redirect URIs: http://localhost:3000/*, http://localhost:3000/auth/openid_connect/callback
+    - Valid Post Logout Redirect URIs:http://localhost:3000/*, http://localhost:3000/
+    - Web Origins: http://localhost:3000
+    - Haz clic en "Save"
+
+5. Obtener el Client Secret
+    Ve a la pestaña "Credentials"
+    Copia el "Client secret"
+    Actualiza tu archivo .env.local:
+
+    KEYCLOAK_CLIENT_ID=rails-app
+    KEYCLOAK_CLIENT_SECRET=<tu_client_secret_aqui> (se puede ver en la configuracion del cliente)
+    KEYCLOAK_REALM=rails-dev
+    KEYCLOAK_SITE=http://keycloak:8080
+    KEYCLOAK_REDIRECT_URI=http://localhost:3000/auth/openid_connect/callback
+
+6. Crear un Nuevo Usuario
+    En el menú izquierdo, ve a "Users"
+    Haz clic en "Add user"
+    Username: testuser
+    Email: testuser@example.com
+    Activa: Email verified
+    Haz clic en "Create"
+
+    Establecer contraseña:
+    - Ve a la pestaña "Credentials"
+    - Haz clic en "Set password"
+    - Password: password123 (o lo que prefieras)
+    - Confirm password: igual
+    - Desactiva: ⬜ Temporary (para que no pida cambiar contraseña)
+    - Haz clic en "Set password"
+    
+    
+    Asignar rol (opcional):
+
+        Ve a la pestaña "Role mapping"
+        Haz clic en "Assign role"
+        Selecciona roles como user o admin si los necesitas (se puede crear mas con tiempo)
+
+
+7. Configurar Scopes (importante para OpenID Connect)
+
+    En el cliente rails-app, ve a la pestaña "Client scopes"
+    Asegúrate de que tengas:
+    - openid
+    - email
+    - profile
+
+8. Realizar el Login desde localhost:3000
+    Abre tu aplicación Rails en http://localhost:3000
+
+    Haz clic en "Login with Keycloak"
+
+    Serás redirigido a http://localhost:8080/realms/rails-dev/protocol/openid-connect/auth
+
+    Ingresa las credenciales:
+    - Username: testuser
+    - Password: password123
+
+    Haz clic en "Sign In"
+
+    Se te pedirá que confirmes el acceso (haz clic en "Yes")
+    Serás redirigido de vuelta a http://localhost:3000 y verás: "Hello, testuser!"
+
+9. Logout
+    En tu aplicación, haz clic en "Logout"
+    Serás redirigido a Keycloak para cerrar sesión
+    Luego regresarás a http://localhost:3000
+    Verás "You are not signed in." nuevamente
+
+
+
+
+
+Pruebas Unitarias con Keycloak:
+
+Para probar las pruebas unitarias de Keycloak y averiguar que los endpoints de acceso estan controlados por rol, hay que 
+
+
+La base de datos es de postgres pero es una separada a la de produccion para que no interfiere con los datos que ya estan en la de produccion.
+
+Para realizar las pruebas unitarias del middleware de keycloak, ejecuta:
+
+bundle install (para averiguar si todo esta instalado)
+
+rails test test/middleware/keycloak_middleware_test.rb -v (para realizar las pruebas)
+

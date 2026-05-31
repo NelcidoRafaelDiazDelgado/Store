@@ -26,9 +26,8 @@ module Keycloak
       # Handle OAuth2 callback
       if path == "/auth/openid_connect/callback"
         code = request.params["code"]
-        if code
-          return handle_callback(request)
-        end
+        return handle_callback(request) if code
+        return unauthorized("Missing authorization code")
       end
 
       if path.start_with?("/auth/") || path == "/" || path == "/login"

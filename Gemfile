@@ -63,6 +63,7 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  gem "webmock"  # Para mockear HTTP
 end
 
 gem "tailwindcss-rails", "~> 4.4"
@@ -75,6 +76,7 @@ gem "omniauth-keycloak"
 
 gem "oauth2"
 gem "jwt"
+gem "sqlite3"
 
 
 gem "dotenv-rails", groups: [ :development, :test ]
