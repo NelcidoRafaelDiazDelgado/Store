@@ -29,8 +29,5 @@ module Store
 
     config.autoload_paths << Rails.root.join("app/middleware")
     config.eager_load_paths << Rails.root.join("app/middleware")
-
-    require Rails.root.join("app/middleware/keycloak/middleware")
-    config.middleware.use Keycloak::Middleware
   end
 end
