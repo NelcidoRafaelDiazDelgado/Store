@@ -19,8 +19,8 @@
     "SELENIUM_HOST": "selenium",
     "KAMAL_REGISTRY_PASSWORD": "$KAMAL_REGISTRY_PASSWORD",
     "DB_HOST": "postgres",
-    "DB_USERNAME": "<username>",
-    "DB_PASSWORD": "<password>"
+    "DB_USERNAME": "postgres",
+    "DB_PASSWORD": "postgres"
   },
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
