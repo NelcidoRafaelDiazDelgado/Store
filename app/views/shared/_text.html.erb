@@ -1,0 +1,25 @@
+<%
+    href = local_assigns[:href] || nil
+    strong = local_assigns[:strong] || false
+    code = local_assigns[:code] || false
+    content = local_assigns[:content] || nil
+%>
+
+
+<% if href %>
+    <a href="{{ $href }}" class="text-zinc-950 underline decoration-zinc-950/50 hover:decoration-zinc-950 dark:text-white dark:decoration-white/50 dark:hover:decoration-white">
+        <%= content %>
+    </a>
+<% elsif strong %>
+    <strong class="font-medium text-zinc-950 dark:text-white">
+         <%= content %>
+    </strong>
+<% elsif code %>
+    <code class="rounded-sm border border-zinc-950/10 bg-zinc-950/2.5 px-0.5 text-sm font-medium text-zinc-950 sm:text-[0.8125rem] dark:border-white/20 dark:bg-white/5 dark:text-white">
+         <%= content %>
+    </code>
+<% else %>
+    <p class="text-base/6 text-zinc-500 sm:text-sm/6 dark:text-zinc-400">
+         <%= content %>
+    </p>
+<% end %>

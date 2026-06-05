@@ -1,0 +1,81 @@
+<%
+  variant_name = local_assigns.fetch(:variant, "dark")
+  disabled = local_assigns.fetch(:disabled, false)
+  content = local_assigns.fetch(:content, nil)
+  href = local_assigns.fetch(:href, nil)
+  extra_class = local_assigns.fetch(:class, "")
+
+
+  variant = {
+    "outline" =>
+      "border-zinc-950/10 text-zinc-950 active:bg-zinc-950/2.5 hover:bg-zinc-950/2.5 dark:border-white/15 dark:text-white dark:[--btn-bg:transparent] dark:active:bg-white/5 dark:hover:bg-white/5 [--btn-icon:var(--color-zinc-500)] active:[--btn-icon:var(--color-zinc-700)] hover:[--btn-icon:var(--color-zinc-700)] dark:active:[--btn-icon:var(--color-zinc-400)] dark:hover:[--btn-icon:var(--color-zinc-400)] cursor-default disabled:opacity-50",
+    "dark" =>
+      "text-white [--btn-bg:var(--color-zinc-900)] [--btn-border:var(--color-zinc-950)]/90 [--btn-hover-overlay:var(--color-white)]/10 dark:[--btn-hover-overlay:var(--color-white)]/5 dark:[--btn-bg:var(--color-zinc-800)] [--btn-icon:var(--color-zinc-400)] active:[--btn-icon:var(--color-zinc-300)] hover:[--btn-icon:var(--color-zinc-300)] cursor-default  before:shadow-sm disabled:opacity-50",
+    "plain" =>
+      "border-transparent text-zinc-950 active:bg-zinc-950/5 hover:bg-zinc-950/5 dark:text-white dark:active:bg-white/10 dark:hover:bg-white/10 [--btn-icon:var(--color-zinc-500)] active:[--btn-icon:var(--color-zinc-700)] hover:[--btn-icon:var(--color-zinc-700)] dark:[--btn-icon:var(--color-zinc-500)] dark:active:[--btn-icon:var(--color-zinc-400)] dark:hover:[--btn-icon:var(--color-zinc-400)] cursor-default disabled:opacity-50",
+    "white" =>
+      "text-zinc-950 [--btn-bg:white] [--btn-border:var(--color-zinc-950)]/10 [--btn-hover-overlay:var(--color-zinc-950)]/2.5 active:[--btn-border:var(--color-zinc-950)]/15 hover:[--btn-border:var(--color-zinc-950)]/15 dark:[--btn-hover-overlay:var(--color-zinc-950)]/5 [--btn-icon:var(--color-zinc-400)] active:[--btn-icon:var(--color-zinc-500)] hover:[--btn-icon:var(--color-zinc-500)] cursor-default  before:shadow-sm disabled:opacity-50",
+    "lime" =>
+      "text-lime-950 [--btn-hover-overlay:var(--color-white)]/25 [--btn-bg:var(--color-lime-300)] [--btn-border:var(--color-lime-400)]/80 [--btn-icon:var(--color-lime-600)] active:[--btn-icon:var(--color-lime-700)] hover:[--btn-icon:var(--color-lime-700)]  before:shadow-sm disabled:opacity-50",
+    "red" =>
+      "text-white [--btn-hover-overlay:var(--color-white)]/10 [--btn-bg:var(--color-red-600)] [--btn-border:var(--color-red-700)]/90 [--btn-icon:var(--color-red-300)] active:[--btn-icon:var(--color-red-200)] hover:[--btn-icon:var(--color-red-200)] cursor-default  before:shadow-sm disabled:opacity-50",
+    "cyan" =>
+      "text-cyan-950 [--btn-bg:var(--color-cyan-300)] [--btn-border:var(--color-cyan-400)]/80 [--btn-hover-overlay:var(--color-white)]/25 [--btn-icon:var(--color-cyan-500)] cursor-default",
+    "blue" =>
+      "text-white [--btn-hover-overlay:var(--color-white)]/10 [--btn-bg:var(--color-blue-600)] [--btn-border:var(--color-blue-700)]/90 [--btn-icon:var(--color-blue-400)] active:[--btn-icon:var(--color-blue-300)] hover:[--btn-icon:var(--color-blue-300)] cursor-default  before:shadow-sm disabled:opacity-50",
+    "green" =>
+      "text-white [--btn-hover-overlay:var(--color-white)]/10 [--btn-bg:var(--color-green-600)] [--btn-border:var(--color-green-700)]/90 [--btn-icon:var(--color-white)]/60 active:[--btn-icon:var(--color-white)]/80 hover:[--btn-icon:var(--color-white)]/80 cursor-default  before:shadow-sm disabled:opacity-50",
+    "yellow" =>
+      "text-yellow-950 [--btn-hover-overlay:var(--color-white)]/25 [--btn-bg:var(--color-yellow-300)] [--btn-border:var(--color-yellow-400)]/80 [--btn-icon:var(--color-yellow-600)] active:[--btn-icon:var(--color-yellow-700)] hover:[--btn-icon:var(--color-yellow-700)] cursor-default disabled:opacity-50",
+    "amber" =>
+      "text-amber-950 [--btn-hover-overlay:var(--color-white)]/25 [--btn-bg:var(--color-amber-400)] [--btn-border:var(--color-amber-500)]/80 [--btn-icon:var(--color-amber-600)] cursor-default",
+    "orange" =>
+      "text-white [--btn-hover-overlay:var(--color-white)]/10 [--btn-bg:var(--color-orange-500)] [--btn-border:var(--color-orange-600)]/90 [--btn-icon:var(--color-orange-300)] active:[--btn-icon:var(--color-orange-200)] hover:[--btn-icon:var(--color-orange-200)] cursor-default  before:shadow-sm disabled:opacity-50",
+    "pink" =>
+      "text-white [--btn-hover-overlay:var(--color-white)]/10 [--btn-bg:var(--color-pink-500)] [--btn-border:var(--color-pink-600)]/90 [--btn-icon:var(--color-pink-300)] active:[--btn-icon:var(--color-pink-200)] hover:[--btn-icon:var(--color-pink-200)] cursor-default before:shadow-sm disabled:opacity-50",
+    "rose" =>
+      "text-white [--btn-hover-overlay:var(--color-white)]/10 [--btn-bg:var(--color-rose-500)] [--btn-border:var(--color-rose-600)]/90 [--btn-icon:var(--color-rose-300)] active:[--btn-icon:var(--color-rose-200)] hover:[--btn-icon:var(--color-rose-200)] cursor-default before:shadow-sm disabled:opacity-50",
+    "violet" =>
+      "text-white [--btn-hover-overlay:var(--color-white)]/10 [--btn-bg:var(--color-violet-500)] [--btn-border:var(--color-violet-600)]/90 [--btn-icon:var(--color-violet-300)] active:[--btn-icon:var(--color-violet-200)] hover:[--btn-icon:var(--color-violet-200)] cursor-default before:shadow-sm disabled:opacity-50",
+    "indigo" =>
+      "text-white [--btn-hover-overlay:var(--color-white)]/10 [--btn-bg:var(--color-indigo-500)] [--btn-border:var(--color-indigo-600)]/90 [--btn-icon:var(--color-indigo-300)] active:[--btn-icon:var(--color-indigo-200)] hover:[--btn-icon:var(--color-indigo-200)] cursor-default before:shadow-sm disabled:opacity-50",
+    "zinc" =>
+      "text-white [--btn-hover-overlay:var(--color-white)]/10 [--btn-bg:var(--color-zinc-600)] [--btn-border:var(--color-zinc-700)]/90 dark:[--btn-hover-overlay:var(--color-white)]/5 [--btn-icon:var(--color-zinc-400)] active:[--btn-icon:var(--color-zinc-300)] hover:[--btn-icon:var(--color-zinc-300)] cursor-default before:shadow-sm disabled:opacity-50",
+    "olive" =>
+      "text-white [--btn-hover-overlay:var(--color-white)]/10 [--btn-bg:var(--color-olive-500)] [--btn-border:var(--color-olive-600)]/90 [--btn-icon:var(--color-olive-300)] active:[--btn-icon:var(--color-olive-200)] hover:[--btn-icon:var(--color-olive-200)] cursor-default before:shadow-sm disabled:opacity-50",
+    "teal" =>
+      "text-white [--btn-hover-overlay:var(--color-white)]/10 [--btn-bg:var(--color-teal-600)] [--btn-border:var(--color-teal-700)]/90 [--btn-icon:var(--color-white)]/60 active:[--btn-icon:var(--color-white)]/80 hover:[--btn-icon:var(--color-white)]/80 cursor-default before:shadow-sm disabled:opacity-50",
+    "sky" =>
+      "text-white [--btn-hover-overlay:var(--color-white)]/10 [--btn-bg:var(--color-sky-500)] [--btn-border:var(--color-sky-600)]/80 [--btn-icon:var(--color-white)]/60 active:[--btn-icon:var(--color-white)]/80 hover:[--btn-icon:var(--color-white)]/80 cursor-default before:shadow-sm disabled:opacity-50",
+    "fuchsia" =>
+      "text-white [--btn-hover-overlay:var(--color-white)]/10 [--btn-bg:var(--color-fuchsia-500)] [--btn-border:var(--color-fuchsia-600)]/90 [--btn-icon:var(--color-fuchsia-300)] active:[--btn-icon:var(--color-fuchsia-200)] hover:[--btn-icon:var(--color-fuchsia-200)] cursor-default before:shadow-sm disabled:opacity-50",
+    "mist" =>
+      "text-white [--btn-hover-overlay:var(--color-white)]/10 [--btn-bg:var(--color-mist-500)] [--btn-border:var(--color-mist-600)]/90 [--btn-icon:var(--color-mist-300)] active:[--btn-icon:var(--color-mist-200)] hover:[--btn-icon:var(--color-mist-200)] cursor-default before:shadow-sm disabled:opacity-50",
+    "mauve" =>
+      "text-white [--btn-hover-overlay:var(--color-white)]/10 [--btn-bg:var(--color-mauve-500)] [--btn-border:var(--color-mauve-600)]/90 [--btn-icon:var(--color-mauve-300)] active:[--btn-icon:var(--color-mauve-200)] hover:[--btn-icon:var(--color-mauve-200)] cursor-default before:shadow-sm disabled:opacity-50",
+    "stone" =>
+      "text-white [--btn-hover-overlay:var(--color-white)]/10 [--btn-bg:var(--color-stone-500)] [--btn-border:var(--color-stone-600)]/90 [--btn-icon:var(--color-stone-300)] active:[--btn-icon:var(--color-stone-200)] hover:[--btn-icon:var(--color-stone-200)] cursor-default before:shadow-sm disabled:opacity-50",
+    "taupe" =>
+      "text-white [--btn-hover-overlay:var(--color-white)]/10 [--btn-bg:var(--color-taupe-500)] [--btn-border:var(--color-taupe-600)]/90 [--btn-icon:var(--color-taupe-300)] active:[--btn-icon:var(--color-taupe-200)] hover:[--btn-icon:var(--color-taupe-200)] cursor-default before:shadow-sm disabled:opacity-50",
+    "purple" =>
+      "text-white [--btn-hover-overlay:var(--color-white)]/10 [--btn-bg:var(--color-purple-500)] [--btn-border:var(--color-purple-600)]/90 [--btn-icon:var(--color-purple-300)] active:[--btn-icon:var(--color-purple-200)] hover:[--btn-icon:var(--color-purple-200)] cursor-default before:shadow-sm disabled:opacity-50",
+    "emerald" =>
+      "text-white [--btn-hover-overlay:var(--color-white)]/10 [--btn-bg:var(--color-emerald-600)] [--btn-border:var(--color-emerald-700)]/90 [--btn-icon:var(--color-white)]/60 active:[--btn-icon:var(--color-white)]/80 hover:[--btn-icon:var(--color-white)]/80 cursor-default before:shadow-sm disabled:opacity-50",
+    "caramel" =>
+      "text-burnt-caramel-100 [--btn-bg:var(--color-burnt-caramel-800)] [--btn-border:var(--color-burnt-caramel-950)]/90 [--btn-hover-overlay:var(--color-white)]/10 dark:[--btn-hover-overlay:var(--color-white)]/5 dark:[--btn-bg:var(--color-burnt-caramel-800)] [--btn-icon:var(--color-burnt-caramel-400)] active:[--btn-icon:var(--color-burnt-caramel-300)] hover:[--btn-icon:var(--color-burnt-caramel-300)] cursor-default  before:shadow-sm disabled:opacity-50",
+    "spring" => "text-black [--btn-bg:var(--color-spring-green-400)] [--btn-border:var(--color-spring-green-400)]/80 [--btn-hover-overlay:var(--color-white)]/25 [--btn-icon:var(--color-spring-green-500)] cursor-default",
+    "icy-aqua" => "text-icy-aqua-950 [--btn-bg:var(--color-icy-aqua-300)] [--btn-border:var(--color-icy-aqua-400)]/80 [--btn-hover-overlay:var(--color-white)]/25 [--btn-icon:var(--color-icy-aqua-500)] cursor-default",
+}
+
+  base = "disabled:before:shadow-none disabled:after:shadow-none relative isolate inline-flex items-baseline justify-center gap-x-2 rounded-lg border text-base/6 font-semibold px-[calc(--spacing(3.5)-1px)] py-[calc(--spacing(2.5)-1px)] sm:px-[calc(--spacing(3)-1px)] sm:py-[calc(--spacing(1.5)-1px)] sm:text-sm/6 focus:not-focus:outline-hidden disabled:opacity-50 *:[slot=icon]:-mx-0.5 *:[slot=icon]:my-0.5 *:[slot=icon]:size-5 *:[slot=icon]:shrink-0 *:[slot=icon]:self-center *:[slot=icon]:text-(--btn-icon) sm:*:[slot=icon]:my-1 sm:*:[slot=icon]:size-4 forced-colors:[--btn-icon:ButtonText] forced-colors:hover:[--btn-icon:ButtonText] border-transparent bg-(--btn-border) dark:bg-(--btn-bg) before:absolute before:inset-0 before:-z-10 before:rounded-[calc(var(--radius-lg)-1px)] before:bg-(--btn-bg) dark:before:hidden dark:border-white/5 after:absolute after:inset-0 after:-z-10 after:rounded-[calc(var(--radius-lg)-1px)] after:shadow-[inset_0_1px_--theme(--color-white/15%)] active:after:bg-(--btn-hover-overlay) hover:after:bg-(--btn-hover-overlay) dark:after:-inset-px dark:after:rounded-lg disabled:before:shadow-none disabled:after:shadow-none cursor-default  #{variant[variant_name]} #{extra_class}"
+%>
+
+ <% if href.present? %>
+  <a href="<%= href %>" class="<%= base %>" >
+    <%= content %>
+  </a>
+<% else %>
+  <button class="<%= base %>" >
+    <%= content %>
+  </button>
+<% end %>

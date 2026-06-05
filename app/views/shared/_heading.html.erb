@@ -1,0 +1,15 @@
+<%
+  subheading = local_assigns[:subheading] || false
+  content = local_assigns[:content] || nil
+%>
+
+
+<% if subheading %>
+    <h2 class="text-base/7 font-semibold text-zinc-950 sm:text-sm/6 dark:text-white">
+        <%= content %>
+    </h2>
+<% else %>
+    <h1 class="text-2xl/8 font-semibold text-zinc-950 sm:text-xl/8 dark:text-white">
+        <%= content %>
+    </h1>
+<% end %>
