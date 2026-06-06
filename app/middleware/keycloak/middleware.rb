@@ -133,11 +133,13 @@ module Keycloak
       JWT::JWK::Set.new([])
     end
 
-    def decode_token(token)
-      @jwks.keys.each do |jwk|
-        begin
-          return JWT.decode(token, jwk.public_key, true, algorithm: "RS256").first
-        rescue JWT::DecodeError
+          return JWT.decode(
+            token,
+            jwk.public_key,
+            true,
+            algorithm: "RS256",
+            verify_expiration: true
+          ).first
           next
         end
       end
