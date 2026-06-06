@@ -10,7 +10,7 @@ class Authentication::User < ApplicationRecord
       email: auth.info.email,
       name: auth.info.name,
       access_token: auth.credentials.token,
-      refresh_token: auth.credentials.token,
+      refresh_token: auth.credentials.refresh_token,
       token_expires_at: Time.zone.at(auth.credentials.expires_at)
     )
     user

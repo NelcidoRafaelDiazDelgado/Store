@@ -4,7 +4,7 @@ ENV["RAILS_ENV"] ||= "test"
 ENV["KEYCLOAK_REALM"] ||= "rails-dev"
 ENV["KEYCLOAK_SITE"] ||= "http://keycloak:8080"
 ENV["KEYCLOAK_CLIENT_ID"] ||= "rails-app"
-ENV["KEYCLOAK_CLIENT_SECRET"] ||= "test-client-secret"
+ENV["KEYCLOAK_CLIENT_SECRET"] ||= "test-client-secret" # Aqui no se debe mostrar la clave secrete actual de cliente
 ENV["KEYCLOAK_REDIRECT_URI"] ||= "http://localhost:3000/auth/openid_connect/callback"
 ENV["KEYCLOAK_ISSUER"] ||= "http://keycloak:8080/realms/rails-dev"
 

@@ -60,9 +60,15 @@ module Keycloak
     private
 
     def extract_token(request)
+      # 1. Check if the token is passed via HTTP headers (good for API calls)
       bearer = request.get_header("HTTP_AUTHORIZATION")
       return bearer.split.last if bearer&.start_with?("Bearer ")
-      request.session[:access_token]
+
+      # 2. Extract token from your custom SessionToken storage using the session id
+      session_id = request.session.id.to_s
+      tokens = SessionToken.find_by_session_id(session_id) # Adjust if your lookup method is named differently
+
+      tokens&.access_token # Return the access token string if tokens exist
     end
 
     def redirect_to_keycloak_login
@@ -89,6 +95,7 @@ module Keycloak
 
       # Store id_token for logout
       request.session[:id_token] = token_response["id_token"]
+
 
       # Decode token to get user info
       payload = decode_token(token_response["access_token"])
@@ -133,13 +140,11 @@ module Keycloak
       JWT::JWK::Set.new([])
     end
 
-          return JWT.decode(
-            token,
-            jwk.public_key,
-            true,
-            algorithm: "RS256",
-            verify_expiration: true
-          ).first
+    def decode_token(token)
+      @jwks.keys.each do |jwk|
+        begin
+          return JWT.decode(token, jwk.public_key, true, algorithm: "RS256", verify_expiration: true).first
+        rescue JWT::DecodeError
           next
         end
       end
