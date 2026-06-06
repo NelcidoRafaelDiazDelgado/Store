@@ -1,6 +1,5 @@
 class Authentication::User < ApplicationRecord
-    self.table_name = "authhentication_users"
-
+  self.table_name = "authentication_users"
     validates :keycloak_id, presence: true, uniqueness: true
     validates :email, presence: true
 
