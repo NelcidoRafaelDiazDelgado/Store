@@ -1,0 +1,11 @@
+require "playwright"
+
+Playwright.create(playwright_cli_executable_path: "npx playwright") do |playwright|
+  browser = playwright.chromium.launch(headless: true)
+  page = browser.new_page
+  page.goto("http://localhost:3000/products")
+
+  page.click("text=Delete") # o botón destroy
+
+  page.on("dialog") { |dialog| dialog.accept } # confirma alert
+end

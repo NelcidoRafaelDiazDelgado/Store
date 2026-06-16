@@ -82,5 +82,6 @@ group :development, :test do
   gem "rswag-specs"
 end
 
-
+gem "playwright-ruby-client"
 gem "paper_trail"
+gem "will_paginate", "~> 4.0"
