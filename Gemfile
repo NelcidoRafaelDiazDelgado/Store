@@ -7,7 +7,7 @@ gem "propshaft"
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
 # Use the Puma web server [https://github.com/puma/puma]
-gem "puma", ">= 8.0.2"
+gem "puma", ">= 5.0"
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
@@ -66,10 +66,3 @@ group :test do
 end
 
 gem "tailwindcss-rails", "~> 4.4"
-# Opentelemtry dependencies
-gem "opentelemetry-sdk", "~> 1.12"
-gem "opentelemetry-instrumentation-all", "~> 0.93.0"
-gem "opentelemetry-exporter-otlp"
-gem "opentelemetry-logs-sdk"
-gem "opentelemetry-exporter-otlp-logs"
-gem "opentelemetry-instrumentation-logger", "~> 0.4.0"
