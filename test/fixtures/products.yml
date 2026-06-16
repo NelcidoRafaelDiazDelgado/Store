@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyText
+  amount: 1
+  min: 1
+  price: 9.99
+  status: 1
+  sku: 
+
+two:
+  name: MyString
+  description: MyText
+  amount: 1
+  min: 1
+  price: 9.99
+  status: 1
+  sku: 

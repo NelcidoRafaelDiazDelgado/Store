@@ -73,3 +73,14 @@ gem "opentelemetry-exporter-otlp"
 gem "opentelemetry-logs-sdk"
 gem "opentelemetry-exporter-otlp-logs"
 gem "opentelemetry-instrumentation-logger", "~> 0.4.0"
+
+gem "rswag"
+group :development, :test do
+  gem "rspec-rails"
+  gem "rswag-api"
+  gem "rswag-ui"
+  gem "rswag-specs"
+end
+
+
+gem "paper_trail"

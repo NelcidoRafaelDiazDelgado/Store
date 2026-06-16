@@ -1,0 +1,44 @@
+<% content_for :title, "Product" %>
+
+<div class="w-full max-w-3xl mx-auto py-10">
+
+  <% if notice.present? %>
+    <p class="mb-6 text-green-600 font-medium">
+      <%= notice %>
+    </p>
+  <% end %>
+
+  <!-- Header -->
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900">Product</h1>
+    <p class="text-gray-500 mt-1">Details view</p>
+  </div>
+
+  <!-- Content (NO card, solo spacing) -->
+  <div class="space-y-4 text-gray-900">
+    <%= render @product %>
+  </div>
+
+  <!-- Actions -->
+  <div class="mt-10 flex gap-4 flex-wrap">
+
+    <%= link_to "Edit",
+      edit_product_path(@product),
+      class: "px-4 py-2 bg-gray-900 text-white hover:bg-gray-800 rounded-md"
+    %>
+
+    <%= link_to "Back",
+      products_path,
+      class: "px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md"
+    %>
+
+    <%= button_to "Delete",
+      @product,
+      method: :delete,
+      data: { turbo_confirm: "Are you sure?" },
+      class: "px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded-md"
+    %>
+
+  </div>
+
+</div>
