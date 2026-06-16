@@ -1,0 +1,23 @@
+<% content_for :title, "New product" %>
+
+<div class="max-w-3xl mx-auto py-10 px-4">
+
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900">New product</h1>
+    <p class="text-gray-500 mt-1">
+      Create a new product in your catalog
+    </p>
+  </div>
+
+  <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
+    <%= render "form", product: @product %>
+  </div>
+
+  <div class="mt-6 flex items-center justify-between">
+    <%= link_to "← Back to products",
+      products_path,
+      class: "text-sm font-medium text-gray-600 hover:text-gray-900 transition"
+    %>
+  </div>
+
+</div>
