@@ -1,0 +1,64 @@
+services:
+    loki:
+        image: grafana/loki:2.9.8
+        ports:
+            - "3100:3100"
+        command: -config.file=/etc/loki/local-config.yaml
+
+    prometheus:
+        image: prom/prometheus:v2.53.4
+        ports:
+            - "9090:9090"
+        volumes:
+            - ./config:/etc/prometheus
+        command:
+            - --config.file=/etc/prometheus/prometheus.yml
+            - --web.enable-remote-write-receiver
+
+    tempo:
+        image: grafana/tempo:2.6.1
+        ports:
+            - "3200:3200"
+        volumes:
+            - ./config:/etc/tempo
+        command:
+            - -config.file=/etc/tempo/tempo.yml
+
+    alloy:
+        image: grafana/alloy:v1.7.1
+        ports:
+            - "12345:12345"
+            - "4317:4317"
+            - "4318:4318"
+        volumes:
+            - ./config:/etc/alloy
+            - /var/run/docker.sock:/var/run/docker.sock
+        command:
+            [
+                "run",
+                "--server.http.listen-addr=0.0.0.0:12345",
+                "/etc/alloy/config.alloy",
+            ]
+        depends_on:
+            - loki
+            - prometheus
+            - tempo
+
+    grafana:
+        image: grafana/grafana:13.0.1
+        ports:
+            - "3001:3000"
+        environment:
+            - GF_SECURITY_ADMIN_PASSWORD=admin
+        volumes:
+            - ./config/grafana/provisioning:/etc/grafana/provisioning
+            - ./config/grafana/dashboards:/var/lib/grafana/dashboards
+        depends_on:
+            - loki
+            - prometheus
+            - tempo
+
+networks:
+    rails_bridge:
+        external: true
+        name: store_default
