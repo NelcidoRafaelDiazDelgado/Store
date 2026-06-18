@@ -1,0 +1,7 @@
+<%= turbo_stream.append "products" do %>
+  <%= render @products %>
+<% end %>
+
+<%= turbo_stream.replace "pagination" do %>
+  <%= render "pagination", pagy: @pagy %>
+<% end %>

@@ -1,0 +1,62 @@
+<% content_for :title, "Products" %>
+
+<div class="w-full">
+  <% if notice.present? %>
+    <p
+      class="
+        py-2 px-3 bg-green-50 mb-5 text-green-600 font-medium rounded-md
+        inline-block
+      "
+    >
+      <%= notice %>
+    </p>
+  <% end %>
+
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="font-bold text-3xl text-gray-900">Products</h1>
+
+    <%= link_to "New product",
+      new_product_path,
+      class: "rounded-md px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-medium" %>
+  </div>
+
+  <div class="overflow-x-auto bg-white border border-gray-100 rounded-xl">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+            Product
+          </th>
+
+          <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+            Price
+          </th>
+
+          <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+            SKU
+          </th>
+
+          <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+            Stock
+          </th>
+
+          <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+            Status
+          </th>
+
+          <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">
+            Actions
+          </th>
+        </tr>
+      </thead>
+
+      <tbody id="products" class="bg-white divide-y divide-gray-100">
+        <%= render @products %>
+      </tbody>
+    </table>
+
+    <div id="pagination">
+      <%= render "pagination", pagy: @pagy %>
+    </div>
+  </div>
+</div>
