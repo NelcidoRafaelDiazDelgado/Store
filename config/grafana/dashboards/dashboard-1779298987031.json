@@ -4,20 +4,25 @@
   "metadata": {
     "name": "adrz9wh",
     "namespace": "default",
-    "uid": "833a008e-1e31-4c0f-ba3c-943e62e28428",
-    "resourceVersion": "1779288734895984",
-    "generation": 4,
-    "creationTimestamp": "2026-05-19T23:34:14Z",
+    "uid": "23a3bdec-f16f-42e9-b5fc-20d11887011b",
+    "resourceVersion": "1781807004062993",
+    "generation": 3,
+    "creationTimestamp": "2026-06-18T18:22:05Z",
     "labels": {
-      "grafana.app/deprecatedInternalID": "3239715724550144"
+      "grafana.app/deprecatedInternalID": "521997927424000"
     },
     "annotations": {
-      "grafana.app/createdBy": "user:efmktuplvdurka",
+      "grafana.app/createdBy": "access-policy:service",
       "grafana.app/folder": "",
-      "grafana.app/message": "Agregando tabla con las solicitudes a la pagina principal en \"aplicacion\" dashboard",
-      "grafana.app/saved-from-ui": "Grafana v13.0.1+security-01 (9bbe672d)",
-      "grafana.app/updatedBy": "user:efmktuplvdurka",
-      "grafana.app/updatedTimestamp": "2026-05-20T14:52:14Z"
+      "grafana.app/managedBy": "classic-file-provisioning",
+      "grafana.app/managerAllowsEdits": "true",
+      "grafana.app/managerId": "default",
+      "grafana.app/saved-from-ui": "Grafana v13.0.1 (a100054f)",
+      "grafana.app/sourceChecksum": "db591b9a3f8472b2710504ae5713b59d",
+      "grafana.app/sourcePath": "/var/lib/grafana/dashboards/dashboard-1779298987031.json",
+      "grafana.app/sourceTimestamp": "1781641454000",
+      "grafana.app/updatedBy": "user:bfpj5c7ouqm0we",
+      "grafana.app/updatedTimestamp": "2026-06-18T18:23:24Z"
     }
   },
   "spec": {
@@ -69,7 +74,7 @@
                       },
                       "spec": {
                         "editorMode": "builder",
-                        "expr": "{\"http.server.request.duration_seconds_count\"}",
+                        "expr": "http_server_duration_milliseconds_count",
                         "legendFormat": "__auto",
                         "range": true
                       }
@@ -86,7 +91,7 @@
           "vizConfig": {
             "kind": "VizConfig",
             "group": "timeseries",
-            "version": "13.0.1+security-01",
+            "version": "13.0.1",
             "spec": {
               "options": {
                 "annotations": {
@@ -188,7 +193,7 @@
                       "spec": {
                         "direction": "backward",
                         "editorMode": "builder",
-                        "expr": "{service_name=\"store-ruby\"} |= ``",
+                        "expr": "{job=\"store-ruby\"} |= ``",
                         "queryType": "range"
                       }
                     },
@@ -204,7 +209,7 @@
           "vizConfig": {
             "kind": "VizConfig",
             "group": "logs",
-            "version": "13.0.1+security-01",
+            "version": "13.0.1",
             "spec": {
               "options": {
                 "dedupStrategy": "none",
@@ -307,7 +312,7 @@
           "vizConfig": {
             "kind": "VizConfig",
             "group": "table",
-            "version": "13.0.1+security-01",
+            "version": "13.0.1",
             "spec": {
               "options": {
                 "cellHeight": "sm",
