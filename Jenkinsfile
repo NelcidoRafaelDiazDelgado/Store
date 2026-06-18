@@ -3,24 +3,48 @@ pipeline {
 
     environment {
         RAILS_ENV = "test"
+        DATABASE_URL = "postgres://postgres:postgres@postgres:5432/postgres"
     }
 
     stages {
+
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
-        stage('Build & Run Devcontainer') {
+
+        stage('Start Postgres') {
             steps {
-                sh 'npx @devcontainers/cli up --workspace-folder .'
+                sh 'docker compose up -d postgres'
+            }
+        }
+
+        stage('Wait DB') {
+            steps {
                 sh '''
-                    devcontainer exec --workspace-folder . bash -c "
-                        ruby -v && \
-                        bundle exec rails db:create db:migrate && \
-                        bundle exec rspec || true && \
-                        bundle exec rails playwright:run
-                    "
+                echo "Waiting for postgres..."
+                until docker exec $(docker ps -qf name=postgres) pg_isready -U postgres; do
+                  sleep 2
+                done
+                '''
+            }
+        }
+
+        stage('Build Rails container') {
+            steps {
+                sh 'docker compose build rails-app'
+            }
+        }
+
+        stage('DB Setup + Tests') {
+            steps {
+                sh '''
+                docker compose run --rm rails-app bash -c "
+                  bundle install &&
+                  rails db:create db:migrate &&
+                  rails test
+                "
                 '''
             }
         }
@@ -28,16 +52,7 @@ pipeline {
 
     post {
         always {
-            sh 'docker compose down || true'            
-            archiveArtifacts artifacts: '**/tmp/screenshots/**/*', allowEmptyArchive: true
-        }
-
-        failure {
-            echo "Build failed"
-        }
-
-        success {
-            echo "Build passed"
+            sh 'docker compose down -v'
         }
     }
 }
