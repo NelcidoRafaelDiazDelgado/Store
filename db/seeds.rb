@@ -16,7 +16,7 @@ require 'securerandom'
     name: Faker::Commerce.product_name,
     description: Faker::Lorem.paragraph,
     amount: Faker::Number.between(from: 11, to: 100),
-    price: Faker::Commerce.price,
+    price: Faker::Commerce.price(range: 1..100.0),
     status: 1,
     min: Faker::Number.between(from: 2, to: 10),
     sku: SecureRandom.uuid

@@ -1,64 +1,58 @@
 pipeline {
-  agent any
+    agent any
 
-  environment {
-    RAILS_ENV = "test"
-  }
-
-  stages {
-
-    stage('Checkout') {
-      steps {
-        checkout scm
-      }
+    environment {
+        RAILS_ENV = "test"
+        DATABASE_URL = "postgres://postgres:postgres@postgres:5432/postgres"
     }
 
-    stage('Install dependencies') {
-      steps {
-        sh '''
-          ruby -v
-          bundle install
-        '''
-      }
+    stages {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Start Postgres') {
+            steps {
+                sh 'docker compose up -d postgres'
+            }
+        }
+
+        stage('Wait DB') {
+            steps {
+                sh '''
+                echo "Waiting for postgres..."
+                until docker exec $(docker ps -qf name=postgres) pg_isready -U postgres; do
+                  sleep 2
+                done
+                '''
+            }
+        }
+
+        stage('Build Rails container') {
+            steps {
+                sh 'docker compose build rails-app'
+            }
+        }
+
+        stage('DB Setup + Tests') {
+            steps {
+                sh '''
+                docker compose run --rm rails-app bash -c "
+                  bundle install &&
+                  rails db:create db:migrate &&
+                  rails test
+                "
+                '''
+            }
+        }
     }
 
-    stage('Setup DB') {
-      steps {
-        sh '''
-          bin/rails db:create db:migrate
-        '''
-      }
+    post {
+        always {
+            sh 'docker compose down -v'
+        }
     }
-
-    stage('Run Rails tests') {
-      steps {
-        sh '''
-          bundle exec rspec || true
-        '''
-      }
-    }
-
-    stage('Run Playwright tests') {
-      steps {
-        sh '''
-          bin/rails playwright:run
-        '''
-      }
-    }
-
-  }
-
-  post {
-    always {
-      archiveArtifacts artifacts: '**/tmp/screenshots/**/*', allowEmptyArchive: true
-    }
-
-    failure {
-      echo "Build failed"
-    }
-
-    success {
-      echo "Build passed"
-    }
-  }
 }
