@@ -1,0 +1,6 @@
+<% if pagy.next %>
+  <div
+    data-controller="infinite-scroll"
+    data-infinite-scroll-url-value="<%= products_path(page: pagy.next, format: :turbo_stream) %>">
+  </div>
+<% end %>

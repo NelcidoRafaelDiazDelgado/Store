@@ -7,3 +7,18 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+require 'faker'
+require 'securerandom'
+
+
+100.times do
+  Product.create!(
+    name: Faker::Commerce.product_name,
+    description: Faker::Lorem.paragraph,
+    amount: Faker::Number.between(from: 11, to: 100),
+    price: Faker::Commerce.price,
+    status: 1,
+    min: Faker::Number.between(from: 2, to: 10),
+    sku: SecureRandom.uuid
+  )
+end

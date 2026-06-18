@@ -82,5 +82,6 @@ group :development, :test do
   gem "rswag-specs"
 end
 
-
+gem "faker"
+gem "pagy", "~> 9.1"
 gem "paper_trail"
