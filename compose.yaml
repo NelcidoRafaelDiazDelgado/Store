@@ -1,4 +1,50 @@
 services:
+    rails-app:
+        ports:
+          - "80:3000"
+        build:
+            context: .
+            dockerfile: Dockerfile
+        environment:
+            DB_HOST: postgres 
+            SECRET_KEY_BASE: ${SECRET}
+            DB_USERNAME: postgres
+            DB_PASSWORD: postgres
+        volumes:
+        - ../../store:/workspaces/store:cached
+
+       
+        networks:
+            - rails_bridge
+
+
+        # Uncomment the next line to use a non-root user for all processes.
+        # user: vscode
+
+        # Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
+        # (Adding the "ports" property to this file will not forward from a Codespace.)
+        depends_on:
+        - selenium
+        - postgres
+
+    selenium:
+        image: selenium/standalone-chromium
+        restart: unless-stopped
+        networks:
+            - rails_bridge
+
+
+    postgres:
+        image: postgres:16.1
+        restart: unless-stopped
+        networks:
+            - rails_bridge
+        volumes:
+        - postgres-data:/var/lib/postgresql/data
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+
     loki:
         image: grafana/loki:2.9.8
         ports:
@@ -59,15 +105,20 @@ services:
             - tempo
  
     jenkins:
-            image: jenkins/jenkins:lts
-            ports:
+        privileged: true
+        image: jenkins/jenkins:lts
+        networks:
+            - rails_bridge
+
+        ports:
             - "8080:8080"
             - "50000:50000"
-            volumes:
+        volumes:
             - jenkins_home:/var/jenkins_home
             - /var/run/docker.sock:/var/run/docker.sock
 
 volumes:
+  postgres-data:
   jenkins_home:
 
 networks:
