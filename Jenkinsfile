@@ -11,16 +11,9 @@ pipeline {
                 checkout scm
             }
         }
-
-        stage('Install Devcontainer CLI') {
-            steps {
-                sh 'npx install @devcontainers/cli'
-            }
-        }
-
         stage('Build & Run Devcontainer') {
             steps {
-                sh 'devcontainer up --workspace-folder .'
+                sh 'npx @devcontainers/cli up --workspace-folder .'
                 sh '''
                     devcontainer exec --workspace-folder . bash -c "
                         ruby -v && \
