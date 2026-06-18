@@ -14,7 +14,7 @@ pipeline {
 
         stage('Install Devcontainer CLI') {
             steps {
-                sh 'npx install -g @devcontainers/cli'
+                sh 'npx install @devcontainers/cli'
             }
         }
 
