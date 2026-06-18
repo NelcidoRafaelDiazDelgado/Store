@@ -1,64 +1,50 @@
 pipeline {
-  agent any
+    agent any
 
-  environment {
-    RAILS_ENV = "test"
-  }
-
-  stages {
-
-    stage('Checkout') {
-      steps {
-        checkout scm
-      }
+    environment {
+        RAILS_ENV = "test"
     }
 
-    stage('Install dependencies') {
-      steps {
-        sh '''
-          ruby -v
-          bundle install
-        '''
-      }
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Install Devcontainer CLI') {
+            steps {
+                sh 'npm install -g @devcontainers/cli'
+            }
+        }
+
+        stage('Build & Run Devcontainer') {
+            steps {
+                sh 'devcontainer up --workspace-folder .'
+                sh '''
+                    devcontainer exec --workspace-folder . bash -c "
+                        ruby -v && \
+                        bundle exec rails db:create db:migrate && \
+                        bundle exec rspec || true && \
+                        bundle exec rails playwright:run
+                    "
+                '''
+            }
+        }
     }
 
-    stage('Setup DB') {
-      steps {
-        sh '''
-          bin/rails db:create db:migrate
-        '''
-      }
-    }
+    post {
+        always {
+            sh 'docker compose down || true'            
+            archiveArtifacts artifacts: '**/tmp/screenshots/**/*', allowEmptyArchive: true
+        }
 
-    stage('Run Rails tests') {
-      steps {
-        sh '''
-          bundle exec rspec || true
-        '''
-      }
-    }
+        failure {
+            echo "Build failed"
+        }
 
-    stage('Run Playwright tests') {
-      steps {
-        sh '''
-          bin/rails playwright:run
-        '''
-      }
+        success {
+            echo "Build passed"
+        }
     }
-
-  }
-
-  post {
-    always {
-      archiveArtifacts artifacts: '**/tmp/screenshots/**/*', allowEmptyArchive: true
-    }
-
-    failure {
-      echo "Build failed"
-    }
-
-    success {
-      echo "Build passed"
-    }
-  }
 }
