@@ -65,7 +65,7 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "tailwindcss-rails", "~> 4.4"
+gem "tailwindcss-rails", "~> 4.6"
 # Opentelemtry dependencies
 gem "opentelemetry-sdk", "~> 1.12"
 gem "opentelemetry-instrumentation-all", "~> 0.93.0"
