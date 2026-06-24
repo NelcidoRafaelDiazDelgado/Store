@@ -68,7 +68,7 @@ end
 gem "tailwindcss-rails", "~> 4.4"
 # Opentelemtry dependencies
 gem "opentelemetry-sdk", "~> 1.12"
-gem "opentelemetry-instrumentation-all", "~> 0.93.0"
+gem "opentelemetry-instrumentation-all", "~> 0.94.0"
 gem "opentelemetry-exporter-otlp"
 gem "opentelemetry-logs-sdk"
 gem "opentelemetry-exporter-otlp-logs"
