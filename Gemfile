@@ -83,6 +83,6 @@ group :development, :test do
 end
 
 gem "faker"
-gem "pagy", "~> 9.1"
+gem "pagy", "~> 43.5"
 gem "paper_trail"
 gem "playwright-ruby-client"
